@@ -5,6 +5,8 @@ date: 2019-04-07 14:59:00
 description: Week 1 at the Recurse Center
 ---
 
+I've recently joined the Recurse Center in New York City, which is a space that allows you to learn and work on what you feel like. I've just completed my first week here, and amidst the orientation period and meeting everyone, I've started to learn Haskell!
+
 Functional programming has been on my list to learn for a long time now. I wanted to pursue a purely functional language because I just wanted to dive in to the functional paradigm, so I set my sights on Haskell.
 
 This first week, I spent more time understanding the syntax and how the types played out. I went through the first five chapters of "Learn You a Haskell for Great Good!" by Miran Lipovaca. The book introduced the language in an extremely palatale way and often made references to imperative languages, which helped me understand it better. I managed to get through four and a half chapters (up until folding lists), when I realized that I needed to practice what I learned in order for me to solidify my knowledge. Along with the book, I started using a Functional Programming Course by Tony Mark & Mark Hibbard to complete basic exercises in Haskell. Just a warning though, this course assumes you have a very basic understanding of the syntax and functions.
