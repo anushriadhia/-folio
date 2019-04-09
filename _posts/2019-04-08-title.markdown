@@ -102,7 +102,7 @@ This will produce the exact same thing as the previous function for ++ that we w
 You might have noticed we can use point free style in the lambda. The final function ends up looking like:
 
 ```haskell
-(++) = flip (foldr (:))
+(++) = flip $ foldr (:)
 ```
 
 The magic of using flip! 
