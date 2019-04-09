@@ -12,10 +12,10 @@ Lists in Haskell are noted as the following:
 
 Two popular operations on lists are (:) and (++). The colon operator (:) concatenates to a list at the beginning (i.e. from the left) and the double plus operator (++) adds it to the end of the list. For example:
 ``` haskell
-e : [a, b, c, d]
+>>e : [a, b, c, d]
 [e, a, b, c, d]
 
-[a, b, c, d] ++ [e]
+>>[a, b, c, d] ++ [e]
 [a, b, c, d, e]
 ```
 
