@@ -8,80 +8,102 @@ description: Notes about some basic operations on Lists
 Let's talk lists and list operations! 
 
 Lists in Haskell are noted as the following:
-[a, b, c, d]
+`[a, b, c, d]`
 
 Two popular operations on lists are (:) and (++). The colon operator (:) concatenates to a list at the beginning (i.e. from the left) and the double plus operator (++) adds it to the end of the list. For example:
+
 ``` haskell
->>e : [a, b, c, d]
+>> e : [a, b, c, d]
 [e, a, b, c, d]
 
->>[a, b, c, d] ++ [e]
+>> [a, b, c, d] ++ [e]
 [a, b, c, d, e]
 ```
 
 As I'm sure you noticed, there are some notable differences between the two operators. Using GHCi, we can find the type signatre of the two operations. Side note, though both of these are normally used as infix operators, we can make them into prefix operators by apply parentheses around them (which is necessary for finding the type).
 
+```haskell
 >>:t (:)
 a -> [a] -> [a]
 >>:t (++)
 [a] -> [a] -> [a]
+```
 
-So, (:) is used for an element and a list and the (++) is used for two lists. However, (:) is instantaneous with an O(1) efficiency and the (++) goes through every element on the left hand side list which gives it an O(n) efficiency, so using the colon operator is usually preferred. In fact, though lists are denoted using [a, b, c], it's just syntactic sugar for 
-(a: (b: (c: []))).
+So, (:) is used for an element and a list and the (++) is used for two lists. However, (:) is instantaneous with an O(1) efficiency and the (++) goes through every element on the left hand side list which gives it an O(n) efficiency, so using the colon operator is usually preferred. In fact, though lists are denoted using `[a, b, c]`, it's just syntactic sugar for `(a: (b: (c: [])))`.
 
 
 Two other operations that are pretty handy are the foldr and foldl functions, which mean "fold right" and "fold left" respectively. Basically, both of these functions iterate over every element in a list and does something to it.
 
+```haskell
 >>:t foldr
 Foldable t => (a->b->b) -> b -> t a -> b
 >>:t foldl
 Foldable t => (b->a->b) -> b -> t a -> b
+```
 
-"Foldable t" means that the parameter t belongs to the Foldable class, which in our case is a list. the first parameter (a -> b -> b) is an aggregator which takes in the element in the list and the previous value, and manipulates it in some way. If it's the first element, it will take the initial value, or the second parameter specified. The last parameter is the list we're manipulating. An example:
+"Foldable t" means that the parameter t belongs to the Foldable class, which in our case is a list. the first parameter `(a -> b -> b)` is an aggregator which takes in the element in the list and the previous value, and manipulates it in some way. If it's the first element, it will take the initial value, or the second parameter specified. The last parameter is the list we're manipulating. An example:
 
+```haskell
 >>foldr (+) 0 [1,2,3]
 6
+```
 
 The function will start on the right hand side, 3, and use the function provided, +, with the initia value, 0. Looking at the first value, we get 3+0=3. The 3 is the value that is passed on to the aggregator, so looking at the second value, we get 2+3=5. Since 5 is passed on to the aggregator, at the last element, we will get 5+1=6. In other words, this function adds up every element in the list. 
 Some key differences to note with foldr and foldl. Because foldr starts with the right most value, it makes it really good for recursion problems and foldl is good for iterating through a list. Foldr can be used on infinite lists but foldl can not. 
 Let's do another example. Let's recreate the fuction length, found in Prelude, which tells you the length of a list.
 
+```haskell
 length:: [a] -> Int
 length listA = foldl (\acc x -> 1+acc) 0 listA
+```
 
 The above function, basically ignores the value of the element and just adds 1 for every element it encounters to the intial value, 0. However, we can use the foldl v foldr to our advantage using a handy function called const. Const is a very simple function that takes in two values and just ignores the second value and returns the first value. With foldr's first parameter, we see the first value that it takes in is the element value and the second is the accumulator value, whereas foldl's first parameter takes in the accumulator value as the first value and the element value as the second value. So, we can rewrite our function as:
 
+```haskell
 length listA = foldl (const . (+1)) 0 listA
+```
 
 Using point free style, our function ends up being:
 
+```haskell
 length = foldl (const . (+1)) 0
+````
 
 Ta-da!!!
 
 
 The last function I want to talk about is the flip function. On lists, the flip function just reverses it.
 
+```haskell
 >>flip [1,2,3,4]
 [4,3,2,1]
+```
 
 Perhaps a more useful application is that flip also reverses two arguments of a function. This is really handy in higher order functions. Let's see an example of how this plays out. Let's write out the aforementioned function (++).
 
+```haskell
 (++) :: [a] -> [a] -> [a]
 listA ++ listB = foldr (\x acc -> (x : acc)) listB listA
-s/n: the left hand-side of this function can also be written as (++) listA listB
+```
+s/n: the left hand-side of this function can also be written as `(++) listA listB`
 
 Now, if we wanted to use flip with this function, we wouldn't have to switch listA and listB, as shown below.
 
+```haskell
 listA ++ listB = flip (foldr (\x acc -> x : acc)) listA listB
+```
 
 This will produce the exact same thing as the previous function for ++ that we wrote. Now, you must be thinking, what was the point of this? It actually helps when we want to write it point free style. The function could also be written as:
 
+```haskell
 (++) = flip (foldr (\x acc -> x : acc))
+```
 
 You might have noticed we can use point free style in the lambda. The final function ends up looking like:
 
+```haskell
 (++) = flip (foldr (:))
+```
 
 The magic of using flip! 
 
