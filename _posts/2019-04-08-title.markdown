@@ -11,10 +11,10 @@ Lists in Haskell are noted as the following:
 [a, b, c, d]
 
 Two popular operations on lists are (:) and (++). The colon operator (:) concatenates to a list at the beginning (i.e. from the left) and the double plus operator (++) adds it to the end of the list. For example:
->> e : [a, b, c, d]
+-- e : [a, b, c, d]
 [e, a, b, c, d]
 
->> [a, b, c, d] ++ [e]
+-- [a, b, c, d] ++ [e]
 [a, b, c, d, e]
 
 As I'm sure you noticed, there are some notable differences between the two operators. Using GHCi, we can find the type signatre of the two operations. Side note, though both of these are normally used as infix operators, we can make them into prefix operators by apply parentheses around them (which is necessary for finding the type).
